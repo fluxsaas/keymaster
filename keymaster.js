@@ -39,6 +39,14 @@
     return -1;
   }
 
+	function hasClass( element, selector ) {
+	  var className = " " + selector + " ";
+		if ( element.nodeType === 1 && (" " + element.className + " ").replace(/[\n\t\r]/g, " ").indexOf( className ) > -1 ) {
+			return true;
+		}
+    return false;
+	}
+
   // handle keydown event
   function dispatch(event){
     var key, tagName, handler, k, i, modifiersMatch;
@@ -55,7 +63,10 @@
     }
 
     // ignore keypressed in any elements that support keyboard data input
-    if (tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA') return;
+    if (!hasClass(event.target, "keymaster")) {
+      if (tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA') return;
+    };
+    
 
     // abort if no potentially matching shortcuts found
     if (!(key in _handlers)) return;
